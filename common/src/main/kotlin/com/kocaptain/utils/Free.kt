@@ -12,14 +12,12 @@ expect class Lift<out A>(x: A) : Free1<A> {
     val x: A
 }
 
-expect class Map<A, out B>(free: Free1<A>, f: (A) -> B) :
-    Free2<A, B> {
+expect class Map<A, out B>(free: Free1<A>, f: (A) -> B) : Free2<A, B> {
     val free: Free1<A>
     val f: (A) -> B
 }
 
-expect class Flatten<out A>(free: Free1<Free1<A>>) :
-    Free1<A> {
+expect class Flatten<out A>(free: Free1<Free1<A>>) : Free1<A> {
     val free: Free1<Free1<A>>
 }
 
