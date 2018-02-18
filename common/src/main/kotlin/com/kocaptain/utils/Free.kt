@@ -31,8 +31,7 @@ expect class Zip<A, B, out C>(
     val f: (A, B) -> Free1<C>
 }
 
-expect class FreeOperation<A>(s: Operation<A>) :
-    Free1<A> {
+expect class FreeOperation<A>(s: Operation<A>) : Free1<A> {
     val s: Operation<A>
 }
 

@@ -1,7 +1,9 @@
 apply plugin: 'konan'
 
+konan.targets = ['iphone', 'iphone_sim']
+
 konanArtifacts {
-    library('native') {
+    library('kocaptain') {
         enableMultiplatform true
     }
 
@@ -9,7 +11,7 @@ konanArtifacts {
         srcDir 'src/test/kotlin'
         commonSourceSet 'test'
         libraries {
-            artifact 'native'
+            artifact 'kocaptain'
         }
         extraOpts '-tr'
     }
