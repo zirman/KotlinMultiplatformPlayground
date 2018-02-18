@@ -75,8 +75,8 @@ fun <A, B : Any> Free1<Either<A, B?>>.rightOrNull(): Free1<B?> =
         }
     }
 
-fun <A, B : Any, C : Any> Free1<Either<A, B?>>.bindIfRightNotNull(
-    f: (B) -> Either<A, C>
+inline fun <A, B : Any, C : Any> Free1<Either<A, B?>>.bindIfRightNotNull(
+    crossinline f: (B) -> Either<A, C>
 ): Free1<Either<A, C?>> =
     bind { either ->
         when (either) {
@@ -86,8 +86,8 @@ fun <A, B : Any, C : Any> Free1<Either<A, B?>>.bindIfRightNotNull(
             .let(::Lift)
     }
 
-fun <A, B : Any, C : Any> Free1<Either<A, B?>>.mapRightIfNotNull(
-    f: (B) -> C?
+inline fun <A, B : Any, C : Any> Free1<Either<A, B?>>.mapRightIfNotNull(
+    crossinline f: (B) -> C?
 ): Free1<Either<A, C?>> =
     map { either ->
         when (either) {
