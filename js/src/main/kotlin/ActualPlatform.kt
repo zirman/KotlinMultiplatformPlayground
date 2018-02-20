@@ -1,4 +1,2 @@
-
-actual class Platform actual constructor() {
-    actual fun platform(): String = "platform-js"
-}
+actual sealed class Ops actual constructor()
+actual class Add actual constructor() : Ops()

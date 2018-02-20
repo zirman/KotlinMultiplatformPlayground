@@ -32,7 +32,7 @@ task populateNodeModules(type: Copy, dependsOn: compileKotlin2Js) {
 node {
     version = "$node_version"
     npmVersion = "$npm_version"
-    download = true
+    //download = true
 }
 
 task installDependencies(type: NpmTask) {
