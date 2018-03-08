@@ -10,25 +10,25 @@ import io.reactivex.functions.BiFunction
 private val settings = mutableMapOf<String, String>()
 
 @Suppress("unused")
-fun <A, B, C> evaluate(free: Free3<A, B, C>, cont: (C) -> Unit): Unit =
-    when (free) {
-        is Lift<C> -> cont(free.x)
-        is Flatten<C> -> evaluate(free.free) { x -> evaluate(x, cont) }
-        is Map<B, C> -> evaluate(free.free) { x -> cont(free.f(x)) }
+fun <A, B, C> evaluate(io: IO3<A, B, C>, cont: (C) -> Unit): Unit =
+    when (io) {
+        is Pure<C> -> cont(io.x)
+        is Flatten<C> -> evaluate(io.io) { x -> evaluate(x, cont) }
+        is Map<B, C> -> evaluate(io.io) { x -> cont(io.f(x)) }
 
         is Zip<A, B, C> -> {
             Single
-                .zip<A, B, Free1<C>>(
-                    Single.create { emitter -> evaluate(free.free1, emitter::onSuccess) },
-                    Single.create { emitter -> evaluate(free.free2, emitter::onSuccess) },
-                    BiFunction { a, b -> free.f(a, b) }
+                .zip<A, B, IO1<C>>(
+                    Single.create { emitter -> evaluate(io.io1, emitter::onSuccess) },
+                    Single.create { emitter -> evaluate(io.io2, emitter::onSuccess) },
+                    BiFunction { a, b -> io.f(a, b) }
                 )
                 .subscribe({ c -> evaluate(c, cont) }, {})
 
             Unit
         }
 
-        is FreeOperation<C> -> operation(free.s, cont)
+        is Lift<C> -> operation(io.s, cont)
     }
 
 fun <A> operation(s: Operation<A>, cont: (A) -> Unit): Unit =
